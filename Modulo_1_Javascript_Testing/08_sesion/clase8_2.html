@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeApi</title>
+    <style>
+        body {
+            background-color: azure;
+            padding: 20px;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        h1 {
+            font-size: 24.px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #pokemon-container {
+            display: grid;
+            grid-template-columns: 200px 200px 200px;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgb(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            font-size: 18px;
+            margin-top: 10px;
+            text-transform: capitalize;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lista de Pokemon</h1>
+    <div id="pokemon-container"></div>
+
+    <script>
+
+        async function obtenerPokemon() {
+
+            const container = document.getElementById("pokemon-container");
+            for (let i = 1; i <= 1025; i++) {
+
+                try {
+                    const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+                    console.log(pokemon);
+                    const data = await pokemon.json();
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    let nombre_pokemon = `${data.name}`
+                    let tipo_pokemon = `${data.types[0].type.name}`
+
+                    card.innerHTML = `<div>
+                    <img src = "${data.sprites.front_default}" alt="${data.name}">                
+                    <h2>#${data.id}</h2>
+                    <h3> ${nombre_pokemon[0].toUpperCase() + nombre_pokemon.substring(1)}</h2>
+                    <h4>Weight: ${data.weight/10} Kg</h3>                    
+                    <h4>Type: ${tipo_pokemon[0].toUpperCase() + tipo_pokemon.substring(1)}</h3>                    
+                    </div>
+                `;
+                    container.appendChild(card)
+                } catch (error) {
+                    console.log("Error al obtener el pokemon", error);
+                }
+            }
+        }
+        
+        obtenerPokemon(); 
+    </script>
+</body>
+
+</html>
