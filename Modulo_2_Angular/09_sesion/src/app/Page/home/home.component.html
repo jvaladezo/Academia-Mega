@@ -1,0 +1,11 @@
+<h1>Home Page</h1>
+<p>Bievemidos a mi pagina</p>
+
+<p>{{mensajeDelHijo}}</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 1rem">
+    <app-hijo *ngFor="let usuario of usuarios"
+    [info]="usuario"
+    (mensaje)="recibirMensaje($event)"
+    ></app-hijo>
+</div>
